@@ -4,7 +4,6 @@
   "description": "Action for zipping files easily",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint .",
     "build": "ncc build index.js -o dist",
     "add": "git add dist/index.js"
   },
@@ -19,12 +18,11 @@
   },
   "homepage": "https://github.com/step-security/vimtor-action-zip#readme",
   "dependencies": {
-    "@actions/core": "^1.10.0",
+    "@actions/core": "^2.0.3",
     "adm-zip": "^0.4.14",
-    "axios": "^1.7.0"
+    "axios": "^1.13.6"
   },
   "devDependencies": {
-    "@vercel/ncc": "^0.38.0",
-    "eslint": "^6.8.0"
+    "@vercel/ncc": "^0.38.0"
   }
 }

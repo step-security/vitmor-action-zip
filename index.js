@@ -43,16 +43,27 @@ async function validateSubscription() {
 async function run() {
   await validateSubscription();
 
+  if (!process.env.GITHUB_WORKSPACE) {
+    core.setFailed("GITHUB_WORKSPACE environment variable is not set");
+    return;
+  }
+
   const files = core.getInput("files");
   const dest = core.getInput("dest");
   const recursive = core.getInput("recursive") === "true";
+  const workspace = path.resolve(process.env.GITHUB_WORKSPACE);
 
   console.log(`Ready to zip "${files}" into ${dest}`);
 
   const zip = new AdmZip();
 
   files.split(" ").forEach(fileName => {
-    const filePath = path.join(process.env.GITHUB_WORKSPACE, fileName);
+    const filePath = path.resolve(workspace, fileName);
+
+    if (!filePath.startsWith(workspace + path.sep) && filePath !== workspace) {
+      core.warning(`Skipping '${fileName}': path traversal outside workspace is not allowed`);
+      return;
+    }
 
     if (!fs.existsSync(filePath)) {
       console.log(`  - ${fileName} (Not Found)`);
@@ -73,7 +84,12 @@ async function run() {
     console.log(`  - ${fileName}`);
   });
 
-  const destPath = path.join(process.env.GITHUB_WORKSPACE, dest);
+  const destPath = path.resolve(workspace, dest);
+
+  if (!destPath.startsWith(workspace + path.sep) && destPath !== workspace) {
+    core.setFailed(`Destination '${dest}': path traversal outside workspace is not allowed`);
+    return;
+  }
 
   zip.writeZip(destPath);
 
