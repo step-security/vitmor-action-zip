@@ -19,7 +19,7 @@
   "homepage": "https://github.com/step-security/vimtor-action-zip#readme",
   "dependencies": {
     "@actions/core": "^2.0.3",
-    "adm-zip": "^0.4.14",
+    "adm-zip": "^0.5.17",
     "axios": "^1.13.6"
   },
   "devDependencies": {
