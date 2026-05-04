@@ -20,7 +20,7 @@
   "dependencies": {
     "@actions/core": "^2.0.3",
     "adm-zip": "^0.4.14",
-    "axios": "^1.13.6"
+    "axios": "^1.16.0"
   },
   "devDependencies": {
     "@vercel/ncc": "^0.38.0"
